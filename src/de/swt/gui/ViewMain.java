@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import de.swt.lib.Ping;
+import de.swt.listener.ActionlistenerViewMain;
 
 public class ViewMain extends JFrame {
 
