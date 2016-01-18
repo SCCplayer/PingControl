@@ -94,4 +94,8 @@ public class ViewMain extends JFrame {
 	public void setPing(Ping myPing) {
 		p = myPing;
 	}
+
+	public Ping getPing() {
+		return p;
+	}
 }
