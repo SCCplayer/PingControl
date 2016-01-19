@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
 
 import de.swt.lib.Ping;
 import de.swt.listener.ActionlistenerViewMain;
@@ -43,6 +44,8 @@ public class ViewMain extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 
+		pnlCenter.setBorder(new EmptyBorder(5, 5, 5, 5));
+
 		pnlCenter.add(lblIPv4);
 		pnlCenter.add(tfIPv4);
 		pnlCenter.add(lblPingIntervall);
@@ -60,7 +63,7 @@ public class ViewMain extends JFrame {
 		add(pnlBtn, BorderLayout.SOUTH);
 
 		setVisible(true);
-		setSize(500, 500);
+		setSize(500, 200);
 	}
 
 	public String getIPv4() {

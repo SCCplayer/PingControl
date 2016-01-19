@@ -27,8 +27,9 @@ public class Ping {
 			BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 			while ((s = stdInput.readLine()) != null) {
+
 				// System.out.println("Zeile eingelesen: " + s);
-				if (s.startsWith("Antwort") == true) {
+				if (s.startsWith("Antwort") == true || s.startsWith("Zeit") == true) {
 					pingText = s;
 				}
 			}
