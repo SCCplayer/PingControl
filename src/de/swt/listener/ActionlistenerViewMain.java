@@ -2,7 +2,6 @@ package de.swt.listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 
 import de.swt.gui.ViewMain;
 import de.swt.lib.Ping;
@@ -24,7 +23,8 @@ public class ActionlistenerViewMain implements ActionListener {
 		} else if (e.getSource() == parent.getBtnStop()) {
 			parent.getTimerPingIntervall().stop();
 		} else if (e.getSource() == parent.getTimerPingIntervall()) {
-			System.out.println(parent.getPing().getPingText() + new Date());
+			// System.out.println(parent.getPing().getPingText() + new Date());
+			parent.addLogeintrag();
 		}
 	}
 }

@@ -1,13 +1,19 @@
 package de.swt.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.Date;
+import java.util.LinkedList;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
@@ -17,7 +23,14 @@ import de.swt.listener.ActionlistenerViewMain;
 
 public class ViewMain extends JFrame {
 
-	JPanel pnlCenter = new JPanel(new GridLayout(3, 2));
+	LinkedList<String> listPingLog = new LinkedList<String>();
+	DefaultListModel<String> listTest = new DefaultListModel<String>();
+	JScrollPane spPingLog;
+
+	JPanel pnlLog = new JPanel(new BorderLayout());
+	JPanel pnlSouth = new JPanel(new BorderLayout());
+	JPanel pnlCenter = new JPanel(new BorderLayout());
+	JPanel pnlGrid = new JPanel(new GridLayout(3, 2));
 	JPanel pnlBtn = new JPanel(new FlowLayout());
 
 	JLabel lblIPv4 = new JLabel("IP-Adresse:");
@@ -41,19 +54,29 @@ public class ViewMain extends JFrame {
 	public ViewMain()
 
 	{
+		pnlLog.add(new JList(listTest), BorderLayout.CENTER);
+		spPingLog = new JScrollPane(pnlLog);
+		spPingLog.setPreferredSize(new Dimension(200, 200));
+		pnlCenter.add(spPingLog, BorderLayout.SOUTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 
-		pnlCenter.setBorder(new EmptyBorder(5, 5, 5, 5));
+		pnlGrid.setBorder(new EmptyBorder(5, 5, 5, 5));
+		pnlLog.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		pnlCenter.add(lblIPv4);
-		pnlCenter.add(tfIPv4);
-		pnlCenter.add(lblPingIntervall);
-		pnlCenter.add(tfPingIntervall);
-		pnlCenter.add(lblEmail);
-		pnlCenter.add(tfEmail);
+		pnlGrid.add(lblIPv4);
+		pnlGrid.add(tfIPv4);
+		pnlGrid.add(lblPingIntervall);
+		pnlGrid.add(tfPingIntervall);
+		pnlGrid.add(lblEmail);
+		pnlGrid.add(tfEmail);
 
+		// spPingLog.setPreferredSize(new Dimension(200, 500));
+		// pnlCenter.add(new JList(listTest), BorderLayout.SOUTH);
+		pnlCenter.add(pnlGrid, BorderLayout.CENTER);
 		add(pnlCenter, BorderLayout.CENTER);
+
+		pnlGrid.setPreferredSize(new Dimension(200, 200));
 
 		btnStart.addActionListener(alvm);
 		btnStop.addActionListener(alvm);
@@ -62,8 +85,11 @@ public class ViewMain extends JFrame {
 
 		add(pnlBtn, BorderLayout.SOUTH);
 
+		tfIPv4.setText("10.20.30.91");
+		tfPingIntervall.setText("1");
+		tfEmail.setText("monitoring@swtue.de");
 		setVisible(true);
-		setSize(500, 200);
+		setSize(600, 400);
 	}
 
 	public String getIPv4() {
@@ -100,5 +126,21 @@ public class ViewMain extends JFrame {
 
 	public Ping getPing() {
 		return p;
+	}
+
+	public void addLogeintrag() {
+		String[] splitPingText;
+		listPingLog.add(getPing().getPingText() + " " + new Date());
+		listTest.addElement(listPingLog.getLast());
+		splitPingText = listPingLog.getLast().split(" ");
+		System.out.println(listPingLog.getLast());
+		spPingLog.getVerticalScrollBar().setValue(spPingLog.getVerticalScrollBar().getMaximum());
+		for (int i = 0; i < splitPingText.length; i++) {
+			System.out.println(splitPingText[i]);
+		}
+		System.out.println(splitPingText[2].replace(":", ""));
+		System.out.println(splitPingText[4].replace("ms", "").replace("Zeit=", "").replace("Zeit<", ""));
+		System.out.println(splitPingText[8] + ". " + splitPingText[7] + " " + splitPingText[11]);
+		System.out.println(splitPingText[9]);
 	}
 }
