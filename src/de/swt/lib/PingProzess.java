@@ -5,11 +5,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ping {
+public class PingProzess {
 	private List<String> command = new ArrayList<String>();
 	static private int ID = 0;
 
-	public Ping(String IPv4) {
+	public PingProzess(String IPv4) {
 		command.add("ping");
 		command.add("-n");
 		command.add("1");

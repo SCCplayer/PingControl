@@ -18,7 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
-import de.swt.lib.Ping;
+import de.swt.lib.LogWriter;
+import de.swt.lib.PingProzess;
 import de.swt.listener.ActionlistenerViewMain;
 
 public class ViewMain extends JFrame {
@@ -49,7 +50,7 @@ public class ViewMain extends JFrame {
 
 	Timer timerPingintervall = new Timer(1000, alvm);
 
-	Ping p;
+	PingProzess p;
 
 	public ViewMain()
 
@@ -88,6 +89,7 @@ public class ViewMain extends JFrame {
 		tfIPv4.setText("10.20.30.91");
 		tfPingIntervall.setText("1");
 		tfEmail.setText("monitoring@swtue.de");
+		setTitle("PingCheck");
 		setVisible(true);
 		setSize(600, 400);
 	}
@@ -120,11 +122,11 @@ public class ViewMain extends JFrame {
 		return tfEmail;
 	}
 
-	public void setPing(Ping myPing) {
+	public void setPing(PingProzess myPing) {
 		p = myPing;
 	}
 
-	public Ping getPing() {
+	public PingProzess getPing() {
 		return p;
 	}
 
@@ -132,15 +134,14 @@ public class ViewMain extends JFrame {
 		String[] splitPingText;
 		listPingLog.add(getPing().getPingText() + " " + new Date());
 		listTest.addElement(listPingLog.getLast());
+
 		splitPingText = listPingLog.getLast().split(" ");
 		System.out.println(listPingLog.getLast());
 		spPingLog.getVerticalScrollBar().setValue(spPingLog.getVerticalScrollBar().getMaximum());
-		for (int i = 0; i < splitPingText.length; i++) {
-			System.out.println(splitPingText[i]);
+		if (splitPingText[0].compareTo("Antwort") == 0) {
+			LogWriter.createLogEintrag(splitPingText[2].replace(":", "") + ";"
+					+ splitPingText[4].replace("ms", "").replace("Zeit=", "").replace("Zeit<", "") + ";"
+					+ splitPingText[8] + ". " + splitPingText[7] + " " + splitPingText[11] + ";" + splitPingText[9]);
 		}
-		System.out.println(splitPingText[2].replace(":", ""));
-		System.out.println(splitPingText[4].replace("ms", "").replace("Zeit=", "").replace("Zeit<", ""));
-		System.out.println(splitPingText[8] + ". " + splitPingText[7] + " " + splitPingText[11]);
-		System.out.println(splitPingText[9]);
 	}
 }
